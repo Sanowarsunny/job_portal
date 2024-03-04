@@ -18,7 +18,8 @@
                 @include('front.components.profile_sidenav')
 
                 <div class="col-lg-9">
-            @include("front.components.message")
+                    
+                    @include("front.components.message")
                     
                     <div class="card border-0 shadow mb-4">
                             

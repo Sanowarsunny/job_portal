@@ -26,6 +26,9 @@ Route::group(['middleware'=> 'auth'],function(){
     //profile
     Route::get('/profilePage', [AccountController::class,'profilePage'])->name('profilePage');
     Route::post('/updateProfile', [AccountController::class,'updateProfile'])->name('updateProfile');
+    Route::post('/profileImage', [AccountController::class,'profileImage'])->name('profileImage');
+
+    
 
     
 });

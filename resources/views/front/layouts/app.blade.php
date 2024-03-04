@@ -27,10 +27,15 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form action="{{ route('profileImage') }}" method="post" >
+          @csrf
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Profile Image</label>
-                <input type="file" class="form-control" id="image"  name="image">
+                <input type="file" class="form-control @error('image') is-invalid @enderror" id="image"  name="image">
+                @error('image')
+                 <p class="invalid-feedback">{{ $message }}</p>
+                @enderror
+                 
             </div>
             <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary mx-3">Update</button>
@@ -57,11 +62,13 @@
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 
 <script>
-  $.ajaxSetup({
-	    headers: {
-	        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-	    }
-});
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+
+
 </script>
 @yield('customJs')
 

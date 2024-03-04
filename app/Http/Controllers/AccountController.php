@@ -113,15 +113,45 @@ class AccountController extends Controller
             $user->save();
             session()->flash('success','Your Profile Updated successfully.');
            return redirect()->route('profilePage');
-            // return response()->json([
-            //     'status'=> true,
-            //     'errors'=> []
-            // ]);
+            
         }
         else {
             return redirect()->route('profilePage')
             ->withErrors($validator);
+        }
+    }
+
+    public function profileImage(Request $request){
+
+        $id = Auth::user()->id;
+        
+        $validator = Validator::make($request->all(), [
+            'image' => 'required|image',
+        ]);
+
+        if ($validator->passes()) {
+
+            $image = $request->image;
+            $ext = $image->getClientOriginalExtension(); // Get the file extension
+
+            // Generate a unique filename
+            $imageName = $id . '_' . time() . '.' . $ext;
+
+            // Store the image in the storage directory
+            $image->move(public_path('/profile_image/'),$imageName);
+
+            // Update the user's profile image path in the database
+            User::where('id',$id)->update(['image'=>$imageName]);
             
+            session()->flash('success', 'Image updated successfully.');
+
+            return redirect()->route('profilePage');
+            
+            
+        }
+        else {
+            return redirect()->route('profilePage')
+            ->withErrors($validator);
         }
     }
 }
