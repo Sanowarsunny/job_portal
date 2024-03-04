@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,7 +14,6 @@ class AccountController extends Controller
         return view('front.account.register');
     }
 
-   
     public function register(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
@@ -46,13 +46,43 @@ class AccountController extends Controller
         
     }
 
-
-
-
-
-
-
+    //login page and login function
     public function loginPage(){
         return view('front.account.login');
+    }
+
+    public function logincheck(Request $request){
+        
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+    
+        if ($validator->passes()) {
+
+            if(Auth::attempt(['email'=>$request->email, 'password'=>$request->password ])){
+                return redirect()->route('profilePage');
+            }
+            else{
+                return redirect()->route('login')->with('error','Email/Password is worng');
+
+            }
+        }
+        else {
+            return redirect()->route('login')
+                    ->withErrors($validator)
+                    ->withInput($request->only('email'));
+            
+        }
+    }
+
+    public function logout(){
+
+        Auth::logout();
+        return redirect()->route('login');
+    }
+    
+    public function profilePage(){
+        return view('front.account.profile');
     }
 }

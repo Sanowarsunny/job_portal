@@ -15,7 +15,15 @@
 						<a class="nav-link" aria-current="page" href="jobs.html">Find Jobs</a>
 					</li>										
 				</ul>				
-				<a class="btn btn-outline-primary me-2" href="{{ route('login') }}" type="submit">Login</a>
+				
+				{{-- check user is login or not if then login button change to account --}}
+				@if (!Auth::check())
+					<a class="btn btn-outline-primary me-2" href="{{ route('login') }}" type="submit">Login</a>
+				@else
+					<a class="btn btn-outline-primary me-2" href="{{ route('profilePage') }}" type="submit">Account</a>
+
+				@endif
+
 				<a class="btn btn-primary" href="post-job.html" type="submit">Post a Job</a>
 			</div>
 		</div>
