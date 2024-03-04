@@ -83,6 +83,45 @@ class AccountController extends Controller
     }
     
     public function profilePage(){
-        return view('front.account.profile');
+
+        $id = Auth::user()->id;
+        // dd($id);
+        $user = User::where('id',$id)->first();
+
+        return view('front.account.profile',[
+            'user'=>$user
+        ]);
+    }
+
+    public function updateProfile(Request $request){
+
+        $id = Auth::user()->id;
+        
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:users,email,'.$id.',id',
+            'name' => 'required|min:4|max:30',
+        ]);
+
+        if ($validator->passes()) {
+
+            $user = User::find($id);
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->designation = $request->designation;
+            $user->mobile = $request->mobile;
+
+            $user->save();
+            session()->flash('success','Your Profile Updated successfully.');
+           return redirect()->route('profilePage');
+            // return response()->json([
+            //     'status'=> true,
+            //     'errors'=> []
+            // ]);
+        }
+        else {
+            return redirect()->route('profilePage')
+            ->withErrors($validator);
+            
+        }
     }
 }
