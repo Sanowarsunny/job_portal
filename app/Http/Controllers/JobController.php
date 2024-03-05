@@ -23,7 +23,6 @@ class JobController extends Controller
         ]);
     }
 
-
     public function createJob(Request $request) {
 
         $rules = [

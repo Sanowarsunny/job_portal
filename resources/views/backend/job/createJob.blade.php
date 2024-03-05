@@ -42,7 +42,7 @@
                                         <select name="category" id="category" class="form-control @error('category') is-invalid @enderror">
                                             <option value="">Select a Category</option>
                                             @if ($categories->isNotEmpty())
-                                                @foreach ($categories as $item )
+                                                @foreach ($categories->unique('name') as $item )
                                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endforeach
                                             @endif
@@ -59,7 +59,7 @@
                                         <select name="jobType" id="jobType" class="form-select @error('jobType') is-invalid @enderror" value="{{ old('jobType') }}">
                                             <option value="">Select a JobType</option>
                                             @if ($jobType->isNotEmpty())
-                                                @foreach ($jobType as $item )
+                                                @foreach ($jobType->unique('name') as $item )
                                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endforeach
                                             @endif
