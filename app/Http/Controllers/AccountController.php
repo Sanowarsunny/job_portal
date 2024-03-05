@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -140,6 +141,8 @@ class AccountController extends Controller
             // Store the image in the storage directory
             $image->move(public_path('/profile_image/'),$imageName);
 
+            //old image delete
+            File::delete(public_path('/profile_image/').Auth::user()->image);
             // Update the user's profile image path in the database
             User::where('id',$id)->update(['image'=>$imageName]);
             
@@ -154,4 +157,15 @@ class AccountController extends Controller
             ->withErrors($validator);
         }
     }
+
+
+
+
+
+
+
+
+
+
+    //end
 }
