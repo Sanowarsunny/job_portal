@@ -113,7 +113,7 @@ class AccountController extends Controller
 
             $user->save();
             session()->flash('success','Your Profile Updated successfully.');
-           return redirect()->route('profilePage');
+            return redirect()->route('profilePage');
             
         }
         else {
@@ -157,14 +157,6 @@ class AccountController extends Controller
             ->withErrors($validator);
         }
     }
-
-
-
-
-
-
-
-
 
 
     //end
