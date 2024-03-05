@@ -38,6 +38,7 @@ Route::group(['middleware'=> 'auth'],function(){
     Route::post('/updatedJob/{id}', [JobController::class,'updatedJob'])->name('updatedJob');
     Route::get('/deleteJob/{id}', [JobController::class,'deleteJob'])->name('deleteJob');
 
+    //Home page Backend
     
 
     

@@ -84,7 +84,7 @@ class JobController extends Controller
     public function myJobPage(){
 
         $id = Auth::user()->id;
-        $jobs = Job::where('user_id',$id)->with('jobType')->paginate(2);
+        $jobs = Job::where('user_id',$id)->with('jobType')->orderBy('created_at','DESC')->paginate(10);
 
         return view('backend.job.myJobPage',[
             'jobs'=>$jobs,

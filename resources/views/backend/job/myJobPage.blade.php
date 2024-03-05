@@ -51,7 +51,7 @@
                                                     <div class="job-name fw-500">{{ $item->title }}</div>
                                                     <div class="info1">{{ $item->jobType->name }}.{{ $item->location }}</div>
                                                 </td>
-                                                <td> {{ $item->created_at }}</td>
+                                                <td>{{ $item->created_at->format('d/m/y') }}</td>
                                                 <td>0 Applications</td>
                                                 <td>
                                                     @if ($item->status == 1)
@@ -82,7 +82,9 @@
                                     
                                 </table>
                             </div>
-
+                            <div class="d-flex justify-content-center">
+                                {{ $jobs->links() }}
+                            </div>
                         </div>
                     </div> 
                 </div>
