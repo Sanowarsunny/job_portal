@@ -4,14 +4,19 @@
         <h2>Popular Categories</h2>
         <div class="row pt-5">
             @if ($categories->isNotEmpty())
-
-                @foreach ( $categories as $item )
-                <div class="col-lg-4 col-xl-3 col-md-6">
-                    <div class="single_catagory">
-                        <a href="jobs.html"><h4 class="pb-2">{{ $item -> name }}</h4></a>
-                        <p class="mb-0"> <span>0</span> Available position</p>
+                @foreach ($categories->unique('name') as $category)
+                    <div class="col-lg-4 col-xl-3 col-md-6">
+                        <div class="single_catagory">
+                            <a href="{{ route('findJobPage').'?category='.$category->id }}"><h4 class="pb-2">{{ $category->name }}</h4></a>
+                            <p class="mb-0">
+                                @if ($category->job->isNotEmpty())
+                                    <span>{{ $category->job->sum('vacancy') }}</span> Available position
+                                @else
+                                    <span>0</span> Available position
+                                @endif
+                            </p>
+                        </div>
                     </div>
-                </div>
                 @endforeach
             @endif
             

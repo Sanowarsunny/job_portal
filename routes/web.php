@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\FindJobController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JobAppliedSaveController;
 use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,8 +45,14 @@ Route::group(['middleware'=> 'auth'],function(){
     Route::post('/updatedJob/{id}', [JobController::class,'updatedJob'])->name('updatedJob');
     Route::get('/deleteJob/{id}', [JobController::class,'deleteJob'])->name('deleteJob');
 
-    //Home page Backend
-    
+    //job apply and removeAppliedJobs
+    Route::get('/jobApplyPage', [JobAppliedSaveController::class,'jobApplyPage'])->name('jobApplyPage');
+    Route::post('/removeAppliedJobs', [JobAppliedSaveController::class,'removeAppliedJobs'])->name('removeAppliedJobs');
+
+    //save and removeSavedJob Backend
+    Route::get('/saveJobPage', [JobAppliedSaveController::class,'saveJobPage'])->name('saveJobPage');
+    Route::post('/removeSavedJob', [JobAppliedSaveController::class,'removeSavedJob'])->name('removeSavedJob');
+
 
     
 });
