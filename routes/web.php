@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
     Route::get('/', [HomeController::class,'index'])->name('home');
     Route::get('/findJobPage', [FindJobController::class,'findJobPage'])->name('findJobPage');
     Route::get('/detailJobPage/{id}', [FindJobController::class,'detailJobPage'])->name('detailJobPage');
+    Route::post('/apply-job',[FindJobController::class,'applyJob'])->name('applyJob');
+    Route::post('/save-job',[FindJobController::class,'saveJob'])->name('saveJob');
 
 
 
