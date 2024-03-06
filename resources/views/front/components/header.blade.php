@@ -21,8 +21,11 @@
 				@if (!Auth::check())
 					<a class="btn btn-outline-primary me-2" href="{{ route('login') }}" type="submit">Login</a>
 				@else
+					@if (Auth::user()->role == 'admin')
+					<a class="btn btn-outline-primary me-2" href="{{ route('admin.dashboardPage') }}" type="submit">Admin</a>				
+					@endif				
 					<a class="btn btn-outline-primary me-2" href="{{ route('profilePage') }}" type="submit">Account</a>
-
+				
 				@endif
 
 				<a class="btn btn-primary" href="{{ route('createJobPage') }}" type="submit">Post a Job</a>
