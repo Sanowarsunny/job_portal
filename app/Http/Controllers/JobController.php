@@ -171,10 +171,9 @@ class JobController extends Controller
 
     public function deleteJob(Request $request ,$id) {
         
-        $id =  Job::find($id);
         $job = Job::where([
         'user_id' => Auth:: user()->id,
-        'id' => $request->jobId
+        'id' => $id
         ])->first();
 
         if ($job == null) {

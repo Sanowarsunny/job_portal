@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 
     Route::get('/', [HomeController::class,'index'])->name('home');
     Route::get('/findJobPage', [FindJobController::class,'findJobPage'])->name('findJobPage');
+    Route::get('/detailJobPage/{id}', [FindJobController::class,'detailJobPage'])->name('detailJobPage');
+
 
 
 
