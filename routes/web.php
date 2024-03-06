@@ -35,6 +35,7 @@ Route::group(['middleware'=> 'auth'],function(){
     Route::get('/profilePage', [AccountController::class,'profilePage'])->name('profilePage');
     Route::post('/updateProfile', [AccountController::class,'updateProfile'])->name('updateProfile');
     Route::post('/profileImage', [AccountController::class,'profileImage'])->name('profileImage');
+    Route::post('/updatePassword', [AccountController::class,'updatePassword'])->name('updatePassword');
 
     //backend create job
     Route::get('/createJobPage', [JobController::class,'createJobPage'])->name('createJobPage');
