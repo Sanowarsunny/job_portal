@@ -195,6 +195,7 @@
 
 @section('customJs')
 <script type="text/javascript">
+
     $("#editJobForm").submit(function(e){
         e.preventDefault();
         $("button[type='submit']").prop('disabled',true);

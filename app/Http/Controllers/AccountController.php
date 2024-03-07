@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+
 
 class AccountController extends Controller
 {
@@ -212,9 +214,9 @@ class AccountController extends Controller
 
         $token = Str::random(40);
 
-        \DB::table('password_reset_tokens')->where('email',$request->email)->delete();
+        DB::table('password_reset_tokens')->where('email',$request->email)->delete();
 
-        \DB::table('password_reset_tokens')->insert([
+        DB::table('password_reset_tokens')->insert([
                     'email' => $request->email,
                     'token' => $token,
                     'created_at'=>now()
@@ -234,19 +236,40 @@ class AccountController extends Controller
 
     }
 
-    public function resetPasswordPage($token){
+    public function resetPasswordPage($tokenString){
 
-        $token = \DB::table('password_reset_tokens')->where('token', $token)->first();
+        $token = DB::table('password_reset_tokens')->where('token', $tokenString)->first();
 
         if ($token == null) {
         return redirect()->route('forgetPasswordPage')->with('error', 'Invalid token.');
         }
-        return view('front.account.resetPassPage');
+        return view('front.account.resetPassPage',[
+            'tokenString'=>$tokenString
+        ]);
 
     }
 
     public function resetPassword(Request $request){
 
+        $token = DB::table('password_reset_tokens')->where('token', $request->token)->first();
+        if ($token == null) {
+        return redirect()->route('forgetPasswordPage')->with('error', 'Invalid token.');
+        }
+        $validator = Validator:: make($request->all(), [
+        'new_password' => 'required|min:4',
+        'confirm_password' => 'required|same:new_password'
+        ]);
+        if ($validator->fails()) {
+            return redirect()->route('resetPasswordPage', $request->token)->withErrors($validator);
+        }
+
+        User::where('email',$token->email)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return redirect()->route('login')->with('success','Reset Password updated successfully.');
+
     }
+    
         
 }

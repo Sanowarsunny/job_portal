@@ -12,18 +12,20 @@
                 <div class="col-md-5">
                     <div class="card shadow border-0 p-5">
                         <h1 class="h3">Reset Password</h1>
-                        <form action="{{ route('forgetPassword') }}" method="post">
+                        <form action="{{ route('resetPassword') }}" method="post">
                             @csrf
+
+                            <input type="hidden" name="token" id="token" value="{{ $tokenString }}">
                             <div class="mb-3">
                                 <label for="" class="mb-2">New Password*</label>
-                                <input type="password" value="" name="email" id="new_password" class="form-control @error('new_password') is-invalid @enderror" placeholder="New Password">
+                                <input type="password" value="" name="new_password" id="new_password" class="form-control @error('new_password') is-invalid @enderror" placeholder="New Password">
                                 @error('new_password')
                                     <p class="invalid-feedback">{{ $message }}</p>
                                 @enderror
                             </div> 
                             <div class="mb-3">
                                 <label for="" class="mb-2">Confirm Password*</label>
-                                <input type="password" value="" name="email" id="confirm_password" class="form-control @error('confirm_password') is-invalid @enderror" placeholder="Confirm Password">
+                                <input type="password" value="" name="confirm_password" id="confirm_password" class="form-control @error('confirm_password') is-invalid @enderror" placeholder="Confirm Password">
                                 @error('confirm_password')
                                     <p class="invalid-feedback">{{ $message }}</p>
                                 @enderror

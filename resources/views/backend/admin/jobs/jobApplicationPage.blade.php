@@ -49,7 +49,6 @@
                                         <tr>
                                             <td>
                                                 <p>{{ $application->job->title }}</p>
-                                                {{-- <p>Applicants: {{ $job->applications->count() }}</p> --}}
                                             </td>
                                             <td>{{ $application->user->name }}</td>
                                             <td>
@@ -88,12 +87,12 @@
     function deleteJobApplication(id) {
         if (confirm("Are you sure you want to delete?")) {
             $.ajax({
-                url: '{{ route("admin.jobApplicationsPage") }}',
+                url: '{{ route("admin.jobApplicationsDelete") }}',
                 type: 'delete',
                 data: { id: id },
                 dataType: 'json',
                 success: function(response) {
-                    window.location.href = "{{ route('admin.jobApplications') }}";
+                    window.location.href = "{{ route('admin.jobApplicationsPage') }}";
                 }
             });
         }

@@ -50,8 +50,6 @@ use Illuminate\Support\Facades\Route;
         Route::get('/resetPasswordPage/{token}', [AccountController::class,'resetPasswordPage'])->name('resetPasswordPage');
         Route::post('/resetPassword', [AccountController::class,'resetPassword'])->name('resetPassword');
 
-
-
     });
 
     //auth Route

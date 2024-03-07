@@ -17,7 +17,28 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->randomElement(['Technology', 'Finance', 'Healthcare', 'Education', 'Others']),
+            'name' => $this->faker->randomElement(['Software Engineer',
+            'Web Developer',
+            'Data Analyst',
+            'UI/UX Designer',
+            'Project Manager',
+            'Marketing Specialist',
+            'Accountant',
+            'HR Manager',
+            'Sales Representative',
+            'Customer Support Specialist',
+            'Graphic Designer',
+            'Network Administrator',
+            'Content Writer',
+            'Financial Analyst',
+            'Business Analyst',
+            'System Administrator',
+            'Digital Marketing Manager',
+            'Product Manager',
+            'Quality Assurance Engineer',
+            'Operations Manager',
+            'Other'
+        ]),
         ];
     }
 }

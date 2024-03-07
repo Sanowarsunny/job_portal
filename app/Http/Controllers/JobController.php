@@ -160,10 +160,6 @@ class JobController extends Controller
             return redirect()->route('myJobPage');
         } 
         else {
-            // return response()->json([
-            //     'errors' => $validator->errors(),
-            //     'status' => false,
-            // ]);
             return redirect()->back()
             ->withErrors($validator);
         }
