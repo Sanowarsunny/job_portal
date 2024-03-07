@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\JobAdminController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\FindJobController;
 use App\Http\Controllers\HomeController;
@@ -17,17 +18,21 @@ use Illuminate\Support\Facades\Route;
 
     //admin
     Route::group(['prefix' => 'admin','middleware' => 'checkRole'], function(){
+
+        //admin user
         Route::get('/dashboardPage',[DashboardController::class,'dashboardPage'])->name('admin.dashboardPage');
         Route::get('/userListPage',[UserController::class,'userListPage'])->name('admin.userListPage');
         Route::get('/userEditPage/{id}',[UserController::class,'userEditPage'])->name('admin.userEditPage');
         Route::put('/userupdate/{id}',[UserController::class,'userupdate'])->name('admin.userupdate');
         Route::delete('/userDelete',[UserController::class,'userDelete'])->name('admin.userDelete');
-        // Route::get('/jobs',[JobController::class,'index'])->name('admin.jobs');
-        // Route::get('/jobs/edit/{id}',[JobController::class,'edit'])->name('admin.jobs.edit');
-        // Route::put('/jobs/{id}',[JobController::class,'update'])->name('admin.jobs.update');
-        // Route::delete('/jobs',[JobController::class,'destroy'])->name('admin.jobs.destroy');
-        // Route::get('/job-applications',[JobApplicationController::class,'index'])->name('admin.jobApplications');
-        // Route::delete('/job-applications',[JobApplicationController::class,'destroy'])->name('admin.jobApplications.destroy');
+
+        //admin Job 
+        Route::get('/jobPage',[JobAdminController::class,'jobPage'])->name('admin.jobPage');
+        Route::get('/jobEdit/{id}',[JobAdminController::class,'jobEdit'])->name('admin.jobEdit');
+        Route::put('/jobUpdate/{id}',[JobAdminController::class,'jobUpdate'])->name('admin.jobUpdate');
+        Route::delete('/jobDelete',[JobAdminController::class,'jobDelete'])->name('admin.jobDelete');
+        Route::get('/job-applications-page',[JobAdminController::class,'jobApplicationsPage'])->name('admin.jobApplicationsPage');
+        Route::delete('/job-applications-delete',[JobAdminController::class,'jobApplicationsDelete'])->name('admin.jobApplicationsDelete');
     });
 
 

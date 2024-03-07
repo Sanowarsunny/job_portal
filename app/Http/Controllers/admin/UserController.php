@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
     public function userListPage() {
-        $users = User::where('role','user')->orderBy('created_at','DESC')->paginate(2);
+        $users = User::where('role','user')->orderBy('created_at','DESC')->paginate(5);
         return view('backend.admin.users.userListPage',[
             'users' => $users
         ]);
