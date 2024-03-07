@@ -43,6 +43,13 @@ use Illuminate\Support\Facades\Route;
         Route::post('/register', [AccountController::class,'register'])->name('register');
         Route::get('/loginPage', [AccountController::class,'loginPage'])->name('login');
         Route::post('/loginCheck', [AccountController::class,'loginCheck'])->name('loginCheck');
+        
+        Route::get('/forgetPasswordPage', [AccountController::class,'forgetPasswordPage'])->name('forgetPasswordPage');
+        Route::post('/forgetPassword', [AccountController::class,'forgetPassword'])->name('forgetPassword');
+
+        Route::get('/resetPasswordPage/{token}', [AccountController::class,'resetPasswordPage'])->name('resetPasswordPage');
+        Route::post('/resetPassword', [AccountController::class,'resetPassword'])->name('resetPassword');
+
 
 
     });

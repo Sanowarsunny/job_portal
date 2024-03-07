@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ResetPasswordEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class AccountController extends Controller
 {
@@ -191,4 +194,59 @@ class AccountController extends Controller
 
     }
     //end
+
+
+    //forgetPasswordPage
+    public function forgetPasswordPage(){
+        return view('front.account.forgetPasswordPage');
+    }
+
+    public function forgetPassword(Request $request) {
+
+        $validator = Validator::make($request->all(), [
+                'email' => 'required|email|exists:users,email'
+        ]);
+        if ($validator->fails()) {
+            return redirect()->route('forgetPasswordPage')->withInput()->withErrors($validator);
+        }
+
+        $token = Str::random(40);
+
+        \DB::table('password_reset_tokens')->where('email',$request->email)->delete();
+
+        \DB::table('password_reset_tokens')->insert([
+                    'email' => $request->email,
+                    'token' => $token,
+                    'created_at'=>now()
+        ]);
+
+        // Send Email here
+        $user = User::where('email', $request->email)->first();
+        $mailData = [
+            'token' => $token,
+            'user' => $user,
+            'subject' => 'Please Change your Password!!!!!'
+        ];
+
+        Mail::to($request->email)->send(new ResetPasswordEmail($mailData));
+        
+        return redirect()->route('forgetPasswordPage')->with('success','Reset password in your mail');
+
+    }
+
+    public function resetPasswordPage($token){
+
+        $token = \DB::table('password_reset_tokens')->where('token', $token)->first();
+
+        if ($token == null) {
+        return redirect()->route('forgetPasswordPage')->with('error', 'Invalid token.');
+        }
+        return view('front.account.resetPassPage');
+
+    }
+
+    public function resetPassword(Request $request){
+
+    }
+        
 }

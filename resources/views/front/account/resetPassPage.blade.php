@@ -11,31 +11,30 @@
             <div class="row d-flex justify-content-center">
                 <div class="col-md-5">
                     <div class="card shadow border-0 p-5">
-                        <h1 class="h3">Login</h1>
-                        <form action="{{ route('loginCheck') }}" method="post">
+                        <h1 class="h3">Reset Password</h1>
+                        <form action="{{ route('forgetPassword') }}" method="post">
                             @csrf
                             <div class="mb-3">
-                                <label for="" class="mb-2">Email*</label>
-                                <input type="text" value="{{ old('email') }}" name="email" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="example@example.com">
-                                @error('email')
+                                <label for="" class="mb-2">New Password*</label>
+                                <input type="password" value="" name="email" id="new_password" class="form-control @error('new_password') is-invalid @enderror" placeholder="New Password">
+                                @error('new_password')
                                     <p class="invalid-feedback">{{ $message }}</p>
                                 @enderror
                             </div> 
                             <div class="mb-3">
-                                <label for="" class="mb-2">Password*</label>
-                                <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="Enter Password">
-                                @error('password')
+                                <label for="" class="mb-2">Confirm Password*</label>
+                                <input type="password" value="" name="email" id="confirm_password" class="form-control @error('confirm_password') is-invalid @enderror" placeholder="Confirm Password">
+                                @error('confirm_password')
                                     <p class="invalid-feedback">{{ $message }}</p>
                                 @enderror
-                            </div> 
+                            </div>
                             <div class="justify-content-between d-flex">
-                            <button class="btn btn-primary mt-2">Login</button>
-                                <a href="{{ route('forgetPasswordPage') }}" class="mt-3">Forgot Password?</a>
+                            <button class="btn btn-primary mt-2">Submit</button>
                             </div>
                         </form>                    
                     </div>
                     <div class="mt-4 text-center">
-                        <p>Do not have an account? <a  href="{{ route('registerPage') }}">Register</a></p>
+                        <p> <a  href="{{ route('login') }}">Back to Login</a></p>
                     </div>
                 </div>
             </div>
