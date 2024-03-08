@@ -21,35 +21,42 @@ class AccountController extends Controller
     }
 
     public function register(Request $request) {
-        $validator = Validator::make($request->all(), [
+       
+        $validator = Validator::make($request->all(),[
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:4|same:cpassword',
-            'cpassword' => 'required',
+            'password' => 'required|min:4|same:confirm_password',
+            'confirm_password' => 'required',
         ]);
-    
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors()->toArray()
-            ], 422);
-        }else {
+
+        if ($validator->passes()) {
             // Hash the password
             $hashedPassword = Hash::make($request->password);
-        
+            
+            // Set default role to 'user' if not provided
+            $role = $request->input('role', 'user');
+
+            // Create the user with provided data
             User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => $hashedPassword,
+                'role' => $role, // Assign the role
             ]);
-        
-            session()->flash('success','You have register successfully.');
+
+            session()->flash('success','You have registerd successfully.');
+
             return response()->json([
                 'status' => true,
                 'errors' => []
-            ],200);
+            ]);
+
+        } else {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
         }
-        
     }
 
     //login page and login function

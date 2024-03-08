@@ -23,12 +23,27 @@
 				@else
 					@if (Auth::user()->role == 'admin')
 					<a class="btn btn-outline-primary me-2" href="{{ route('admin.dashboardPage') }}" type="submit">Admin</a>				
-					@endif				
+					@endif	
+					@if (Auth::user()->role == 'company')
+					<a class="btn btn-outline-primary me-2" href="#" type="submit">Company</a>				
+					@endif			
+
 					<a class="btn btn-outline-primary me-2" href="{{ route('profilePage') }}" type="submit">Account</a>
-				
+					@if (Auth::check() && Auth::user()->role != 'user')
+					<a class="btn btn-primary me-2" href="{{ route('createJobPage') }}" type="submit">Post a Job</a>
+					@endif
+					<a class="btn btn-primary " href="{{ route('logout') }}" type="submit" >Logout</a>
+
 				@endif
 
+				{{-- <a class="btn btn-primary" href="{{ route('createJobPage') }}" type="submit">Post a Job</a> --}}
+				{{-- @if (Auth::check() && Auth::user()->role != 'user')
 				<a class="btn btn-primary" href="{{ route('createJobPage') }}" type="submit">Post a Job</a>
+				@endif --}}
+
+				{{-- <a class="btn btn-primary" href="{{ route('logout') }}" type="submit" >Logout</a> --}}
+
+
 			</div>
 		</div>
 	</nav>

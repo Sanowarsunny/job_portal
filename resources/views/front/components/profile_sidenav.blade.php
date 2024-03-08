@@ -21,18 +21,23 @@
                 <li class="list-group-item d-flex justify-content-between p-3">
                     <a href="{{ route('profilePage') }}">Account Settings</a>
                 </li>
+                @if (Auth::user()->role != 'user')
+
                 <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                     <a href="{{ route('createJobPage') }}">Post a Job</a>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                     <a href="{{ route("myJobPage") }}">My Jobs</a>
                 </li>
+                @endif
                 <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                     <a href="{{ route('jobApplyPage') }}">Jobs Applied</a>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                     <a href="{{ route('saveJobPage') }}">Saved Jobs</a>
                 </li>  
+            
+
                 <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                     <a href="{{ route('logout') }}">Logout</a>
                 </li>                                                       
