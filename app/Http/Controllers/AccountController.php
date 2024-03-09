@@ -106,33 +106,125 @@ class AccountController extends Controller
         ]);
     }
 
-    public function updateProfile(Request $request){
 
-        $id = Auth::user()->id;
+
+
+
+
+
+
+
+
+    // public function updateProfile(Request $request){
+
+    //     $id = Auth::user()->id;
         
-        $validator = Validator::make($request->all(), [
+    //     $validator = Validator::make($request->all(), [
+    //         'email' => 'required|email|unique:users,email,'.$id.',id',
+    //         'name' => 'required|min:4|max:30',
+    //         'cv' => Auth::user()->role === 'user' ? 
+    //                     'required|file|mimes:pdf,doc,docx|max:5000' 
+    //                     :'nullable|file|mimes:pdf,doc,docx|max:5000',
+    //     ]);
+
+    //     if ($validator->passes()) {
+
+    //         $user = User::find($id);
+    //         $user->name = $request->name;
+    //         $user->email = $request->email;
+    //         $user->designation = $request->designation;
+    //         $user->mobile = $request->mobile;
+            
+    //         // Handle CV file upload if it exists
+    //         if ($request->hasFile('cv')) {
+    //             $cvFile = $request->file('cv');
+    //             $cvPath = $cvFile->move(public_path('upload_cv'), $cvFile->getClientOriginalName());
+    //             $user->cv = $cvPath->getPathname(); // Save file path
+    //         }
+
+    //         $user->save();
+    //         session()->flash('success','Your Profile Updated successfully.');
+    //         return redirect()->route('profilePage');
+            
+    //     }
+    //     else {
+    //         return redirect()->route('profilePage')
+    //         ->withErrors($validator);
+    //     }
+    // }
+
+    public function updateProfile(Request $request)
+    {
+        $id = Auth::user()->id;
+    
+        // Define validation rules
+        $rules = [
             'email' => 'required|email|unique:users,email,'.$id.',id',
             'name' => 'required|min:4|max:30',
-        ]);
-
+        ];
+    
+        // Check if user has a CV file already
+        $user = User::find($id);
+        $hasCV = !is_null($user->cv);
+    
+        // If no CV file exists, require the CV field
+        if (!$hasCV || $request->hasFile('cv')) {
+            $rules['cv'] = 'required|file|mimes:pdf,doc,docx|max:5000';
+        }
+    
+        // Validate the request data
+        $validator = Validator::make($request->all(), $rules);
+    
         if ($validator->passes()) {
-
-            $user = User::find($id);
+            // Update user profile data
             $user->name = $request->name;
             $user->email = $request->email;
             $user->designation = $request->designation;
             $user->mobile = $request->mobile;
 
-            $user->save();
-            session()->flash('success','Your Profile Updated successfully.');
-            return redirect()->route('profilePage');
+
+            // Handle CV file upload if it exists
+            if ($request->hasFile('cv')) {
+
+
+                $cvFile = $request->file('cv');
+
+            // Delete the old CV file if it exists
+            if ($hasCV) {
+                $oldCVPath = public_path($user->cv);
+                if (file_exists($oldCVPath)) {
+                    unlink($oldCVPath);
+                }
+            }
+            $name = pathinfo($cvFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $ext = $cvFile->getClientOriginalExtension(); 
+
+            // Generate a unique filename
+            $cvName = $id . '_' . $name . '.' . $ext;
+
+            // Store the image in the storage directory
+            $cvFile->move(public_path('/upload_cv/'),$cvName);
+
+            $user->cv = $cvName; 
             
-        }
-        else {
-            return redirect()->route('profilePage')
-            ->withErrors($validator);
+            }
+
+            $user->save();
+    
+            session()->flash('success', 'Your Profile Updated successfully.');
+            return redirect()->route('profilePage');
+        } else {
+            // Validation failed, redirect back with errors
+            return redirect()->route('profilePage')->withErrors($validator);
         }
     }
+    
+
+
+
+
+
+
 
     public function profileImage(Request $request){
 

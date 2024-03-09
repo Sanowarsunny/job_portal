@@ -13,7 +13,7 @@ class JobAppliedSaveController extends Controller
         $jobApplications = JobApplication::where('user_id',Auth::user()->id)
                 ->with(['job','job.jobType','job.applications'])
                 ->orderBy('created_at','DESC')
-                ->paginate(2);
+                ->paginate(4);
 
         return view('backend.job.jobApplyPage',[
             'jobApplications' => $jobApplications

@@ -75,6 +75,14 @@ class UserController extends Controller
                 unlink($imagePath);
             }
         }
+        
+        if (!empty($user->cv)) {
+            $cvPath = public_path('upload_cv/' . $user->cv);
+            if (file_exists($cvPath)) {
+                unlink($cvPath);
+            }
+        }
+        
     
         // Delete user from the database
         $user->delete();
