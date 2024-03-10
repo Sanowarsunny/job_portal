@@ -1,5 +1,5 @@
  {{-- hero section --}}
- <section class="section-0 lazy d-flex bg-image-style dark align-items-center "   class="" data-bg="{{ asset('assets/images/banner5.jpg') }}">
+ <section class="section-0 lazy d-flex bg-image-style dark align-items-center "   class="" data-bg="{{ asset('https://cdni.iconscout.com/illustration/premium/thumb/online-job-search-5015545-4185620.png') }}">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-xl-8">
