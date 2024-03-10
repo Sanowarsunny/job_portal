@@ -52,7 +52,7 @@
                                                     <div class="info1">{{ $item->jobType->name }}.{{ $item->location }}</div>
                                                 </td>
                                                 <td>{{ $item->created_at->format('d/m/y') }}</td>
-                                                <td>0 Applications</td>
+                                                <td>{{ $item->applications->count() }} Applications</td>
                                                 <td>
                                                     @if ($item->status == 1)
                                                         <div class="job-status text-capitalize">Active</div>

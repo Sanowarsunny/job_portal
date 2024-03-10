@@ -189,22 +189,18 @@ class AccountController extends Controller
 
                 $cvFile = $request->file('cv');
 
-            // Delete the old CV file if it exists
-            if ($hasCV) {
-                $oldCVPath = public_path($user->cv);
-                if (file_exists($oldCVPath)) {
-                    unlink($oldCVPath);
-                }
-            }
+            
             $name = pathinfo($cvFile->getClientOriginalName(), PATHINFO_FILENAME);
             $ext = $cvFile->getClientOriginalExtension(); 
 
             // Generate a unique filename
-            $cvName = $id . '_' . $name . '.' . $ext;
+            $cvName = $id . $name . '.' . $ext;
 
             // Store the image in the storage directory
             $cvFile->move(public_path('/upload_cv/'),$cvName);
-
+            //old image delete
+            File::delete(public_path('/upload_cv/').Auth::user()->cv);
+            
             $user->cv = $cvName; 
             
             }

@@ -49,56 +49,25 @@
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Mobile</label>
                                     <input type="text" name="mobile" id="mobile" placeholder="Mobile" class="form-control" value="{{ $user->mobile }}">
-                                </div>         
-                                {{-- Include CV upload tag only if user's role is 'user' --}}
-                                {{-- @if(Auth::check() && Auth::user()->role == 'user')
-                                    <div class="mb-4">
+                                </div> 
+
+                                @if(Auth::check() && Auth::user()->role == 'user')
+                                <div class="mb-4">
                                     <label for="cv" class="mb-2">Upload CV</label><br>
                                     <input type="file" name="cv" id="cv" class="form-control-file @error('cv') is-invalid @enderror">
-                                    @error('cv')
-                                    <p class="invalid-feedback">{{ $message }}</p>
-                                    @enderror
-                                    </div>
-                                @endif                --}}
-                                {{-- @if(Auth::check() && Auth::user()->role == 'user')
-                                    <div class="mb-4">
-                                        <label for="cv" class="mb-2">Upload CV</label><br>
-                                        <input type="file" name="cv" id="cv" class="form-control-file @error('cv') is-invalid @enderror">
                                         @if ($user->cv)
-                                            <small>Current CV: {{ basename($user->cv) }}</small>
+                                        @php
+                                        $filename = basename($user->cv);
+                                        $displayFilename = preg_replace('/^\d+/', '', $filename); // Remove leading numeric digits
+                                        @endphp
+                                    <small>Current CV: {{ $displayFilename }}</small>
                                         @endif
                                         @error('cv')
                                             <p class="invalid-feedback">{{ $message }}</p>
                                         @enderror
                                     </div>
-                                @endif --}}
-                                
-
-                                @if(Auth::check() && Auth::user()->role == 'user')
-    <div class="mb-4">
-        <label for="cv" class="mb-2">Upload CV</label><br>
-        <input type="file" name="cv" id="cv" class="form-control-file @error('cv') is-invalid @enderror">
-        @if ($user->cv)
-            @php
-                $filename = basename($user->cv);
-                $parts = explode('_', $filename);
-                $firstPart = reset($parts);
-                $extension = pathinfo($filename, PATHINFO_EXTENSION);
-                $displayFilename = $firstPart . '.' . $extension;
-            @endphp
-            <small>Current CV: {{ $displayFilename }}</small>
-        @endif
-        @error('cv')
-            <p class="invalid-feedback">{{ $message }}</p>
-        @enderror
-    </div>
-@endif
-
-
-
-
-
-                            </div>
+                                    @endif        
+                                </div>
                             <div class="card-footer  p-4">
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </div>
