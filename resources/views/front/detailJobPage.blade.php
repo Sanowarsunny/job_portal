@@ -93,8 +93,6 @@
                 @if (Auth::user())
                    @if (Auth::user()->id == $job->user_id)
                        
-                   
-                
                 <div class="card shadow border-0 mt-4">
                     <div class="job_details_header">
                         <div class="single_jobs white-bg d-flex justify-content-between">
@@ -113,6 +111,8 @@
                                 <th>Email</th>
                                 <th>Mobile</th>
                                 <th>Applied Date</th>
+                                <th>CV</th>
+
                             </tr>
                             @if ($applications->isNotEmpty())
                                 @foreach ($applications as $application)
@@ -122,6 +122,17 @@
                                     <td>{{ $application->user->mobile  }}</td>
                                     <td>
                                         {{ \Carbon\Carbon::parse($application->applied_date)->format('d M, Y') }}
+                                    </td>
+                                    <td>
+                                        @if ($application->user->cv)
+                                            @php
+                                                $filename = basename($application->user->cv);
+                                                $displayFilename = preg_replace('/^\d+/', '', $filename); // Remove leading numeric digits
+                                            @endphp
+                                            <a href="{{ asset('/upload_cv/'.$application->user->cv) }}" download class="btn btn-primary">Download</a>
+                                        @else
+                                            No CV uploaded
+                                        @endif
                                     </td>
                                 </tr> 
                                 @endforeach
